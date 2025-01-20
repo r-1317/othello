@@ -19,6 +19,15 @@ def initialize_pygame():
     pygame.display.set_caption('Visualizer')
     return screen
 
+def draw_text_with_outline(screen, text, font, color, outline_color, pos):
+    outline_text = font.render(text, True, outline_color)
+    screen.blit(outline_text, (pos[0] - 1, pos[1] - 1))
+    screen.blit(outline_text, (pos[0] + 1, pos[1] - 1))
+    screen.blit(outline_text, (pos[0] - 1, pos[1] + 1))
+    screen.blit(outline_text, (pos[0] + 1, pos[1] + 1))
+    text_surface = font.render(text, True, color)
+    screen.blit(text_surface, pos)
+
 def draw_board(screen, board, valid_cells):
     screen.fill(GREEN)
     for i in range(GRID_SIZE):
@@ -32,8 +41,7 @@ def draw_board(screen, board, valid_cells):
                 pygame.draw.circle(screen, BLACK, (j * CELL_SIZE + CELL_SIZE // 2, i * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 2 - 5)
             # 各マスに座標を表示
             font = pygame.font.SysFont(None, 36)  # フォントサイズを大きくする
-            text = font.render(f'({i},{j})', True, MAGENTA, True)  # アンチエイリアスを有効にする
-            screen.blit(text, (j * CELL_SIZE + 10, i * CELL_SIZE + 10))  # 座標の位置を調整
+            draw_text_with_outline(screen, f'({i},{j})', font, MAGENTA, WHITE, (j * CELL_SIZE + 10, i * CELL_SIZE + 10))  # 縁取りを白に変更
     # 次に置けるマスの描画
     for (i, j) in valid_cells:
         rect = pygame.Rect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE)
@@ -46,24 +54,20 @@ def draw_info(screen, turn, scores, n, game_finished):
 
     # 手番の表示
     player = "Black" if turn == 1 else "White"
-    text = font.render(f"Turn: {player}", True, WHITE, True)  # アンチエイリアスを有効にする
-    screen.blit(text, (info_x, info_y))
+    draw_text_with_outline(screen, f"Turn: {player}", font, WHITE, BLACK, (info_x, info_y))  # 縁取りを追加
 
     # スコアの表示
     info_y += 70  # 行間を調整
-    text = font.render(f"White: {scores[0]}", True, WHITE, True)  # アンチエイリアスを有効にする
-    screen.blit(text, (info_x, info_y))
+    draw_text_with_outline(screen, f"White: {scores[0]}", font, WHITE, BLACK, (info_x, info_y))  # 縁取りを追加
     info_y += 60  # 行間を調整
-    text = font.render(f"Black: {scores[1]}", True, WHITE, True)  # アンチエイリアスを有効にする
-    screen.blit(text, (info_x, info_y))
+    draw_text_with_outline(screen, f"Black: {scores[1]}", font, WHITE, BLACK, (info_x, info_y))  # 縁取りを追加
 
     # 駒を置ける場所の数の表示
     info_y += 70  # 行間を調整
     if game_finished:
-        text = font.render("Finish", True, RED, True)  # アンチエイリアスを有効にする
+        draw_text_with_outline(screen, "Finish", font, RED, WHITE, (info_x, info_y))  # 縁取りを追加
     else:
-        text = font.render(f"Valid Moves: {n}", True, WHITE, True)  # アンチエイリアスを有効にする
-    screen.blit(text, (info_x, info_y))
+        draw_text_with_outline(screen, f"Valid Moves: {n}", font, WHITE, BLACK, (info_x, info_y))  # 縁取りを追加
 
 def visualize_othello(screen, turn, board, scores, n, valid_cells, game_finished):
     draw_board(screen, board, valid_cells)
