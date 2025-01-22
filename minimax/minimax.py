@@ -14,10 +14,9 @@ wheights = (
   (120, -20,  20,   5,   5,  20, -20, 120)
 )
 
-debug = True  # 完成時にはFalseにする
+debug = False
 if debug and __name__ == "__main__":
   from icecream import ic
-  ic.disable()
 else:
   def ic(*args):
     return None

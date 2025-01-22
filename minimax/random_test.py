@@ -1,7 +1,13 @@
 import random as r
-from icecream import ic
 from minimax import minimax
 from othellomachine import othellomachine, calculate_valid_moves
+
+debug = False
+if debug and __name__ == "__main__":
+  from icecream import ic
+else:
+  def ic(*args):
+    return None
 
 # ランダムに手を打つプレイヤーに対する勝率を計算
 
