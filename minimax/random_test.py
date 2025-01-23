@@ -2,7 +2,7 @@ import random as r
 from minimax import minimax
 from othellomachine import othellomachine, calculate_valid_moves
 
-debug = True
+debug = False
 if debug and __name__ == "__main__":
   from icecream import ic
 else:
