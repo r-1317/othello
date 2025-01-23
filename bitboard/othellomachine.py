@@ -36,12 +36,13 @@ def get_flippable_cells(board, b, x, y):
     directions = [-8, 8, -1, 1, -9, -7, 7, 9]  # 各方向のビットシフト
     for direction in directions:
         temp = []
-        mask = 1 << (bit_index + direction)
-        while 0 <= (bit_index + direction) < 64 and (opponent & mask):
-            temp.append(((bit_index + direction) // 8, (bit_index + direction) % 8))
-            direction += direction
-            mask = 1 << (bit_index + direction)
-        if 0 <= (bit_index + direction) < 64 and (current_player & mask):
+        shift = direction
+        mask_index = bit_index + shift
+        while 0 <= mask_index < 64 and (opponent & (1 << mask_index)):
+            temp.append((mask_index // 8, mask_index % 8))
+            shift += direction
+            mask_index = bit_index + shift
+        if 0 <= mask_index < 64 and (current_player & (1 << mask_index)):
             flippable.extend(temp)
 
     return flippable
