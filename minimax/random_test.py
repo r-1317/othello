@@ -23,14 +23,16 @@ DEFAULT_BOAD = [
   ]
 
 def main():
+  m = (int(input("試合数を入力(1試合30分目安): ")))
+
   win_count = 0
   lose_count = 0
   draw_count = 0
 
-  # 100回ゲームを行う
-  for i in range(100):
+  # m回ゲームを行う
+  for i in range(m):
     board = [row[:] for row in DEFAULT_BOAD]
-    turn = i % 2
+    turn = 1 if r.random() < 0.5 else 0
     valid_cells = calculate_valid_moves(board, turn)
 
     while True:
@@ -55,7 +57,8 @@ def main():
             lose_count += 1
           else:
             draw_count += 1
-          ic(win_count, lose_count, draw_count)
+          # ic(win_count, lose_count, draw_count)
+          print(f"勝ち: {win_count}, 負け: {lose_count}, 引き分け: {draw_count}")
           break
 
   # 集計

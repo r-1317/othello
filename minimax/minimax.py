@@ -1,7 +1,7 @@
 from othellomachine import othellomachine, calculate_valid_moves
 import time
 
-N = 4  # 探索の深さ (7が限界かな)
+N = 7  # 探索の深さ (7が限界かな)
 
 wheights = (
   (120, -20,  20,   5,   5,  20, -20, 120),
