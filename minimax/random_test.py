@@ -24,7 +24,7 @@ DEFAULT_BOAD = [
   ]
 
 def main():
-  m = (int(input("試合数を入力(1試合30分目安): ")))
+  m = (int(input("試合数を入力(1試合10分目安): ")))
 
   win_count = 0
   lose_count = 0
