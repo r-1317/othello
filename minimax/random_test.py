@@ -2,7 +2,7 @@ import random as r
 from minimax import minimax
 from othellomachine import othellomachine, calculate_valid_moves
 
-debug = False
+debug = True
 if debug and __name__ == "__main__":
   from icecream import ic
 else:
@@ -59,9 +59,9 @@ def main():
           break
 
   # 集計
-  ic(win_count)
-  ic(lose_count)
-  ic(draw_count)
+  print(f"勝ち: {win_count}")
+  print(f"負け: {lose_count}")
+  print(f"引き分け: {draw_count}")
 
   # 勝率 (引き分けは除外)
   winning_rate = win_count / (win_count + lose_count)
