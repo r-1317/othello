@@ -1,6 +1,7 @@
 import random as r
 from minimax import minimax
 from othellomachine import othellomachine, calculate_valid_moves
+import time
 
 debug = False
 if debug and __name__ == "__main__":
@@ -34,6 +35,7 @@ def main():
     board = [row[:] for row in DEFAULT_BOAD]
     turn = 1 if r.random() < 0.5 else 0
     valid_cells = calculate_valid_moves(board, turn)
+    start_time = time.time()
 
     while True:
       # ランダムプレイヤーの手番
@@ -58,8 +60,11 @@ def main():
           else:
             draw_count += 1
           # ic(win_count, lose_count, draw_count)
-          print(f"勝ち: {win_count}, 負け: {lose_count}, 引き分け: {draw_count}")
           break
+
+    end_time = time.time()
+    print(f"試合{i+1}終了: {int(end_time - start_time)}秒")
+    print(f"勝ち: {win_count}, 負け: {lose_count}, 引き分け: {draw_count}")
 
   # 集計
   print(f"勝ち: {win_count}")
