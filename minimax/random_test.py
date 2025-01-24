@@ -26,6 +26,7 @@ DEFAULT_BOAD = [
 def main():
   m = (int(input("試合数を入力(1試合10分目安): ")))
 
+  time_list = []
   win_count = 0
   lose_count = 0
   draw_count = 0
@@ -63,6 +64,7 @@ def main():
           break
 
     end_time = time.time()
+    time_list.append(end_time - start_time)
     print(f"試合{i+1}終了: {int(end_time - start_time)}秒")
     print(f"勝ち: {win_count}, 負け: {lose_count}, 引き分け: {draw_count}")
 
@@ -75,6 +77,7 @@ def main():
   winning_rate = win_count / (win_count + lose_count)
 
   print(f"勝率: {winning_rate}")
+  print(f"平均時間: {sum(time_list) / m:.2f}秒")
 
 
 if __name__ == "__main__":
