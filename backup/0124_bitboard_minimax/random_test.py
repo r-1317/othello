@@ -1,6 +1,6 @@
 import random as r
 from minimax import minimax
-from othellomachine import othellomachine, calculate_valid_moves, board_to_bitboards
+from othellomachine import othellomachine, calculate_valid_moves
 import time
 
 debug = False
@@ -23,9 +23,6 @@ DEFAULT_BOAD = [
   [-1, -1, -1, -1, -1, -1, -1, -1]
   ]
 
-DEFAULT_PLAYER_0 = 0b0000000000000000000000000000100000010000000000000000000000000000
-DEFAULT_PLAYER_1 = 0b0000000000000000000000000001000000001000000000000000000000000000
-
 def main():
   m = (int(input("試合数を入力(1試合10分目安): ")))
 
@@ -36,27 +33,26 @@ def main():
 
   # m回ゲームを行う
   for i in range(m):
-    # board = [row[:] for row in DEFAULT_BOAD]
-    player_0, player_1 = DEFAULT_PLAYER_0, DEFAULT_PLAYER_1
+    board = [row[:] for row in DEFAULT_BOAD]
     turn = 1 if r.random() < 0.5 else 0
-    valid_cells = calculate_valid_moves(player_0, player_1, turn)
+    valid_cells = calculate_valid_moves(board, turn)
     start_time = time.time()
 
     while True:
       # ランダムプレイヤーの手番
       if not turn:
-        valid_cells = calculate_valid_moves(player_0, player_1, turn)
+        valid_cells = calculate_valid_moves(board, turn)
         move = r.choice(valid_cells)
       # ミニマックスプレイヤーの手番
       else:
-        move = minimax(player_0, player_1)
-      status, turn, player_0, player_1, scores, n, valid_cells = othellomachine(player_0, player_1, turn, move)
+        move = minimax(board)
+      status, turn, board, scores, n, valid_cells = othellomachine(board, turn, move)
       assert status
       turn = not turn
 
       if len(valid_cells) == 0:
         turn = not turn
-        valid_cells = calculate_valid_moves(player_0, player_1, turn)
+        valid_cells = calculate_valid_moves(board, turn)
         if len(valid_cells) == 0:
           if scores[0] < scores[1]:
             win_count += 1
