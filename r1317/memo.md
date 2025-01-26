@@ -57,3 +57,8 @@
 ### N = 4
 - win_count: 44, lose_count: 4, draw_count: 2
 - 勝率: 0.917
+
+# 勝敗表
+- r1317に対し、AIが勝ったかどうか
+## bitboard_minimax
+- 

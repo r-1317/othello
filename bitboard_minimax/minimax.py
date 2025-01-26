@@ -16,6 +16,7 @@ wheights = (
 )
 
 debug = False
+# debug = True
 if debug and __name__ == "__main__":
   from icecream import ic
 else:
