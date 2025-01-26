@@ -21,3 +21,12 @@
 2. `calculate_valid_moves(board, b)`: 現在のボードで駒を置ける場所を計算する関数。空いているマスで、駒を置いたときにひっくり返せる座標がある場合、そのマスを有効な手としてリストに追加する。
 
 3. `othellomachine(board, b, move)`: オセロの一手を実行する関数。入力形式のチェック、駒を置けるかのチェック、駒を置く処理、スコア計算、次に置けるマスの計算を行う。駒を置ける場合は`True`を返し、置けない場合は`False`を返す。
+
+## 初期設定
+
+```powershell
+python -m venv .venv
+.venv/Scripts/Activate.ps1
+pip install pygame
+pip install icecream
+```
