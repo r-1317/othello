@@ -16,7 +16,7 @@ wheights = (
 )
 
 debug = False
-debug = True
+# debug = True
 if debug:
   from icecream import ic
 else:
@@ -54,7 +54,7 @@ def search(player_0, player_1, b, depth):
   # まず、現在の盤面で置けるマスを計算
   # board = bitboards_to_board(player_0, player_1)
   valid_cells = calculate_valid_moves(player_0, player_1, b)
-  n = len(valid_cells) 
+  n = len(valid_cells)
   # 合法手がない場合
   if n == 0:
     # 盤面がすべて埋まっている場合、最終評価を返す

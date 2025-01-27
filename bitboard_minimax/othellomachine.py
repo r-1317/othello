@@ -92,19 +92,21 @@ def calculate_valid_moves(player_0, player_1, b):
     for i in range(64):
         if (empty >> i) & 1:  # 空きマスの場合のみ検討
             for direction in directions:
+                prev_shift = 0
                 shift = direction
                 mask_index = i + shift
 
                 # 範囲外や無効な方向をスキップ
-                if mask_index < 0 or mask_index >= 64 or not is_valid_move_within_bounds(i, shift):
+                if mask_index < 0 or mask_index >= 64 or not is_valid_move_within_bounds(i, prev_shift, direction):
                     continue
 
                 mask = 1 << mask_index
                 has_opponent = False
 
                 # 方向ごとに駒を確認
-                while mask_index >= 0 and mask_index < 64 and (opponent & mask) and is_valid_move_within_bounds(i, shift):
+                while mask_index >= 0 and mask_index < 64 and (opponent & mask) and is_valid_move_within_bounds(i, prev_shift, direction):
                     has_opponent = True
+                    prev_shift = shift
                     shift += direction
                     mask_index = i + shift
                     if mask_index < 0 or mask_index >= 64:
@@ -112,25 +114,20 @@ def calculate_valid_moves(player_0, player_1, b):
                     mask = 1 << mask_index
 
                 # 相手の駒を挟むように自分の駒がある場合、有効手とする
-                if has_opponent and 0 <= mask_index < 64 and (current_player & mask):
+                if has_opponent and 0 <= mask_index < 64 and (current_player & mask) and is_valid_move_within_bounds(i, prev_shift, direction):
                     valid_moves.append((i // 8, i % 8))
                     break
 
     return valid_moves
 
 # 特定の方向に移動した場合にボードの境界条件を満たすか確認する
-def is_valid_move_within_bounds(index, direction):
-    row, col = index // 8, index % 8
-    new_row, new_col = (index + direction) // 8, (index + direction) % 8
+def is_valid_move_within_bounds(i, index, direction):
+    row, col = (i + index) // 8, (i + index) % 8
+    new_row, new_col = (i + index + direction) // 8, (i + index + direction) % 8
 
-    if debug and (row, col) == (0, 7):
-        ic(row, col, new_row, new_col, direction)
-
-    # 水平方向のチェック
-    if direction in [-1, 1] and row != new_row:
-        return False
-    # 斜め方向のチェック
-    if direction in [-7, -9, 7, 9] and abs(row - new_row) != abs(col - new_col):
+    # 2つのマスが隣り合っているかどうか
+    if not is_adjacent(i + index, i + index + direction):
+        # ic((row, col), (new_row, new_col), direction)
         return False
 
     # ボード全体の範囲内かどうか
