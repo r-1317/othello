@@ -20,8 +20,6 @@ def main():
         # bitboardの初期化
         player_0 = 0b0000000000000000000000000001000000001000000000000000000000000000
         player_1 = 0b0000000000000000000000000000100000010000000000000000000000000000
-        player_0 = 2021630566647988800
-        player_1 = 16280998318985706943
         turn = 0  # 1: 黒(AI), 0: 白(人間) <- 人間が先手に変更
         scores = (2, 2)
         valid_cells = othellomachine.calculate_valid_moves(player_0, player_1, turn)
@@ -70,6 +68,7 @@ def main():
                 # 相手の合法手もない場合、ゲーム終了
                 if n == 0:
                     game_finished = True
+                    board = othellomachine.bitboards_to_board(player_0, player_1)
                     visualizer.visualize_othello(screen, turn, board, scores, n, valid_cells, game_finished)
                     while True:
                         choice = input("Game finished. Enter 'restart' to play again or 'exit' to quit: ").strip().lower()
