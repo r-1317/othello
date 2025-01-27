@@ -20,6 +20,8 @@ def main():
         # bitboardの初期化
         player_0 = 0b0000000000000000000000000001000000001000000000000000000000000000
         player_1 = 0b0000000000000000000000000000100000010000000000000000000000000000
+        player_0 = 570818803794944
+        player_1 = 149877719826432
         turn = 0  # 1: 黒(AI), 0: 白(人間) <- 人間が先手に変更
         scores = (2, 2)
         valid_cells = othellomachine.calculate_valid_moves(player_0, player_1, turn)

@@ -72,3 +72,7 @@
   - そもそもchokudaiサーチはオセロで使えるのか？
 - パターン評価が良いらしい
 - https://note.com/nyanyan_cubetech/n/nb6067ce73ccd
+
+## othellomachine修正
+- 隣接マスの判定がおかしい
+- 

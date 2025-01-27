@@ -1,3 +1,11 @@
+debug = False
+# debug = True
+if debug :
+    from icecream import ic
+else:
+    def ic(*args):
+        return None
+
 # 2次元配列をビットボード形式に変換する
 def board_to_bitboards(board):
     player_0, player_1 = 0, 0
@@ -38,6 +46,12 @@ def popcount(x):
     x = x + (x >> 32) # 64bitごと = 全部の合計
     return x & 0x0000007f
 
+# 2つのマスが隣り合っているかどうかを判定する
+def is_adjacent(prev_index, next_index):
+    prev_x, prev_y = prev_index // 8, prev_index % 8
+    next_x, next_y = next_index // 8, next_index % 8
+    return abs(prev_x - next_x) <= 1 and abs(prev_y - next_y) <= 1
+
 # 駒を置いたときにひっくり返せる座標のリストを返す
 def get_flippable_cells(player_0, player_1, b, x, y):
     # player_0, player_1 = board_to_bitboards(board)
@@ -53,12 +67,14 @@ def get_flippable_cells(player_0, player_1, b, x, y):
     for direction in directions:
         temp = []
         shift = direction
+        prev_bit_index = bit_index
         mask_index = bit_index + shift
-        while 0 <= mask_index < 64 and (opponent & (1 << mask_index)):
+        while 0 <= mask_index < 64 and (opponent & (1 << mask_index)) and is_adjacent(prev_bit_index, mask_index):
             temp.append((mask_index // 8, mask_index % 8))
             shift += direction
+            prev_bit_index = mask_index
             mask_index = bit_index + shift
-        if 0 <= mask_index < 64 and (current_player & (1 << mask_index)):
+        if 0 <= mask_index < 64 and (current_player & (1 << mask_index)) and is_adjacent(prev_bit_index, mask_index):
             flippable.extend(temp)
 
     return flippable
@@ -107,8 +123,14 @@ def is_valid_move_within_bounds(index, direction):
     row, col = index // 8, index % 8
     new_row, new_col = (index + direction) // 8, (index + direction) % 8
 
+    if debug and (row, col) == (0, 7):
+        ic(row, col, new_row, new_col, direction)
+
     # 水平方向のチェック
     if direction in [-1, 1] and row != new_row:
+        return False
+    # 斜め方向のチェック
+    if direction in [-7, -9, 7, 9] and abs(row - new_row) != abs(col - new_col):
         return False
 
     # ボード全体の範囲内かどうか

@@ -16,8 +16,8 @@ wheights = (
 )
 
 debug = False
-# debug = True
-if debug and __name__ == "__main__":
+debug = True
+if debug:
   from icecream import ic
 else:
   def ic(*args):
@@ -79,11 +79,13 @@ def search(player_0, player_1, b, depth):
     best_score = -10**9
     for move in valid_cells:
       status, _, new_player_0, new_player_1, _, _, _ = othellomachine(player_0, player_1, b, move)
+      if not status:
+        ic(bitboards_to_board(player_0, player_1), b, move)
       assert status
       # new_player_0, new_player_1 = board_to_bitboards(new_board)
       _, score = search(new_player_0, new_player_1, not b, depth-1)
       if best_score < score:
-        ic(best_move, best_score, move, score)
+        # ic(best_move, best_score, move, score)
         best_move = move
         best_score = score
   # 手番が0の場合、最小値を返す
@@ -92,6 +94,8 @@ def search(player_0, player_1, b, depth):
     best_score = 10**9
     for move in valid_cells:
       status, _, new_player_0, new_player_1, _, _, _ = othellomachine(player_0, player_1, b, move)
+      if not status:
+        ic(bitboards_to_board(player_0, player_1), b, move)
       assert status
       # new_player_0, new_player_1 = board_to_bitboards(new_board)
       _, score = search(new_player_0, new_player_1, not b, depth-1)
@@ -99,7 +103,7 @@ def search(player_0, player_1, b, depth):
         best_move = move
         best_score = score
   # 最善手とその評価値を返す
-  ic(best_move, best_score)
+  # ic(best_move, best_score)
   return best_move, best_score
 
 # 盤面を受け取り、次の手(x, y)を返す
