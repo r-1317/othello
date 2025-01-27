@@ -28,5 +28,9 @@
 python -m venv .venv
 .venv/Scripts/Activate.ps1
 pip install pygame
+```
+
+デバッグログが必要な場合はicecreamもインストール
+```powershell
 pip install icecream
 ```
