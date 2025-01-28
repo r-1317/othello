@@ -1,7 +1,7 @@
 from othellomachine import othellomachine, calculate_valid_moves, board_to_bitboards, bitboards_to_board, popcount
 import time
 
-N = 5  # 探索の深さ (5程度が限界?)
+N = 8  # 探索の深さ (人間と対戦するなら5か6が適切)
 
 # 重み付けテーブル
 wheights = (
